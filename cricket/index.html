@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bat Ball Stump Game</title>
+    <style>
+      body {
+        text-align: center;
+        font-family: Arial, sans-serif;
+        background-image: url("https://img.freepik.com/free-vector/t20-world-cup-cricket-championship-poster-template-brochure-decorated-flyer-banner-design_460848-15769.jpg?w=996&t=st=1729279394~exp=1729279994~hmac=5c72c99df27c5759a0a42e6803c3722aba634f1cc52f816743b15b1a2d6abec0");
+
+        background-size: auto;
+        background-position: center;
+        color: #fff;
+        margin: 0;
+        padding: 50px;
+      }
+      h1 {
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+      }
+      button {
+        border-radius: 5px;
+        padding: 20px;
+        margin: 10px;
+        font-size: 18px;
+        border: none;
+        cursor: pointer;
+        background-color: rgba(255, 255, 255, 0.8);
+        color: #333;
+        transition: background-color 0.3s, transform 0.3s;
+      }
+      button:hover {
+        background-color: rgba(255, 255, 255, 1);
+        transform: scale(1.05);
+      }
+      .display {
+        margin-top: 20px;
+        font-size: 20px;
+        font-weight: bold;
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Bat Ball Stump Game</h1>
+      <button class="bat">Bat</button>
+      <button class="ball">Ball</button>
+      <button class="stump">Stump</button>
+      <div class="display"></div>
+    </main>
+    <script>
+      const onBat = document.querySelector(".bat");
+      const onBall = document.querySelector(".ball");
+      const onStump = document.querySelector(".stump");
+      const onDisplay = document.querySelector(".display");
+
+      const gameArr = ["Bat", "Ball", "Stump"];
+
+      onDisplay.innerText = `Let's start the game.`;
+
+      const getPcChoice = () => {
+        const choice = Math.floor(Math.random() * 3);
+        return gameArr[choice];
+      };
+
+      const winner = (userChoice, pcChoice) => {
+        if (userChoice === pcChoice) {
+          return `It's a tie`;
+        } else {
+          if (
+            (userChoice === "Bat" && pcChoice === "Ball") ||
+            (userChoice === "Ball" && pcChoice === "Stump") ||
+            (userChoice === "Stump" && pcChoice === "Bat")
+          ) {
+            return `You Won! You chose ${userChoice} and PC chose ${pcChoice}`;
+          } else {
+            return `PC Wins! You chose ${userChoice} and PC chose ${pcChoice}`;
+          }
+        }
+      };
+
+      const playGame = (userChoice) => {
+        const pcChoice = getPcChoice();
+        const result = winner(userChoice, pcChoice);
+        onDisplay.innerText = result;
+      };
+
+      onBat.addEventListener("click", () => playGame("Bat"));
+      onBall.addEventListener("click", () => playGame("Ball"));
+      onStump.addEventListener("click", () => playGame("Stump"));
+    </script>
+  </body>
+</html>
