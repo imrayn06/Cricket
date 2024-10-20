@@ -40,6 +40,9 @@
         font-weight: bold;
         text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
       }
+      .reset {
+        background-color: rgb(221, 111, 111);
+      }
     </style>
   </head>
   <body>
@@ -48,12 +51,24 @@
       <button class="bat">Bat</button>
       <button class="ball">Ball</button>
       <button class="stump">Stump</button>
+      <button class="reset">Reset</button>
+
       <div class="display"></div>
     </main>
     <script>
+      let score = {
+        wins: 0,
+        lost: 0,
+        tie: 0,
+        displayScore: () => {
+          return `Wins : ${score.wins} , Lost : ${score.lost} , Tie : ${score.tie}`;
+        },
+      };
+
       const onBat = document.querySelector(".bat");
       const onBall = document.querySelector(".ball");
       const onStump = document.querySelector(".stump");
+      const onReset = document.querySelector(".reset");
       const onDisplay = document.querySelector(".display");
 
       const gameArr = ["Bat", "Ball", "Stump"];
@@ -67,6 +82,7 @@
 
       const winner = (userChoice, pcChoice) => {
         if (userChoice === pcChoice) {
+          score.tie++;
           return `It's a tie`;
         } else {
           if (
@@ -74,8 +90,10 @@
             (userChoice === "Ball" && pcChoice === "Stump") ||
             (userChoice === "Stump" && pcChoice === "Bat")
           ) {
+            score.wins++;
             return `You Won! You chose ${userChoice} and PC chose ${pcChoice}`;
           } else {
+            score.lost++;
             return `PC Wins! You chose ${userChoice} and PC chose ${pcChoice}`;
           }
         }
@@ -84,12 +102,22 @@
       const playGame = (userChoice) => {
         const pcChoice = getPcChoice();
         const result = winner(userChoice, pcChoice);
-        onDisplay.innerText = result;
-      };
+        localStorage.setItem("Score", JSON.stringify(score));
+        onDisplay.innerText = `Result : ${result} 
 
+         ${score.displayScore()}`;
+      };
+      const resetAll = () => {
+        score.wins = 0;
+        score.lost = 0;
+        score.tie = 0;
+        onDisplay.innerText = `Let's start the game.`;
+        localStorage.removeItem("Score");
+      };
       onBat.addEventListener("click", () => playGame("Bat"));
       onBall.addEventListener("click", () => playGame("Ball"));
       onStump.addEventListener("click", () => playGame("Stump"));
+      onReset.addEventListener("click", () => resetAll());
     </script>
   </body>
 </html>
